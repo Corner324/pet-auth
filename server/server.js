@@ -32,19 +32,24 @@ app.get('/registration', (req, res) => {
 app.post('/', (req, res) => {
     let db = new DB('accounts');
     const { username, password } = req.body; // Получаем данные из запроса
+
+    console.log(req.body)
     
     db.querry("SELECT login, password FROM accounts WHERE login=?", [username], (error, result) => {
         if (error) {
-            console.error(error);
-        } else {
-            console.log(result); // Обработка результата запроса
+            console.error('Error! ', error);
+        } else if (result == false){
+            console.error('Error! Invalid');
+        }
+        else{
+            console.log('Success! ', result); // Обработка результата запроса
         }
     });
 
     db.closeCon();
     
     console.log(username, password)
-    res.status(200).json({ message: 'Успешная аутентификация' });
+    res.status(200).json({ username, password });
     res.end()
     
     // Пример простой проверки на основе хардкодированных значений
