@@ -31,10 +31,10 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
       // Обрабатываем ответ от сервера (например, сохраняем токен аутентификации в localStorage)
       //window.alert('Successful registration')
       console.log('Успешная авторизация:', data);
-      window.location.replace("http://127.0.0.1:8000/");
+      //window.location.replace("http://127.0.0.1:8000/");
     })
     .catch(error => {
-      console.error('Ошибка:', error);
+      console.error('Ошибка: ', error);
       // Обработка ошибок при авторизации
     });
 

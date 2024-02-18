@@ -85,7 +85,9 @@ app.post('/', (req, res) => {
     
     console.log(username, password)
     //res.status(200).json({ message: 'Успешная регистрация' });
-    res.redirect('/')
+    //res.redirect('/')
+    res.status(200).json({ username, password });
+    res.end()
     // res.end()
     // res.end()
     
