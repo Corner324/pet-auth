@@ -62,34 +62,43 @@ app.post('/', (req, res) => {
     // }
   });
 
-  app.post('/registration', (req, res) => {
-    let db = new DB('accounts');
+  app.post('/registration', async (req, res) => {
+    let db = await new DB('accounts');
     const { username, password } = req.body; // Получаем данные из запроса
     
-    db.querry("INSERT INTO accounts(login, password) VALUES(?, ?)", [username, password], (error, result) => {
+    await db.querry("INSERT INTO accounts(login, password) VALUES(?, ?)", [username, password], (error, result) => {
         if (error) {
             console.error(error);
+            
         } else {
             console.log(result); // Обработка результата запроса
+    
+            console.log(username, password)
+            console.log("Сейчас будет редирект!")
+            
         }
+
     });
-    db.querry("SELECT * FROM accounts", [], (error, result) => {
+
+    await db.querry("SELECT * FROM accounts", [], (error, result) => {
         if (error) {
             console.error(error);
         } else {
             console.log(result); // Обработка результата запроса
+            
         }
     });
 
     db.closeCon();
+
+    res.redirect(301, "/")
+    //res.status(301).json("Redirected")
+
     
-    console.log(username, password)
     //res.status(200).json({ message: 'Успешная регистрация' });
-    //res.redirect('/')
-    res.status(200).json({ username, password });
-    res.end()
+    // res.status(200).json({ username, password });
     // res.end()
-    // res.end()
+
     
     // Пример простой проверки на основе хардкодированных значений
     // if (username === 'user' && password === 'password') {
@@ -101,7 +110,13 @@ app.post('/', (req, res) => {
     // }
   });
 
-app.listen(8000, () => {
-    console.log(actual_dir);
-    console.log(`Server running at http://${HOSTNAME}:${PORT}/`);
-})
+async function startApp(){
+
+    app.listen(8000, () => {
+        console.log(actual_dir);
+        console.log(`Server running at http://${HOSTNAME}:${PORT}/`);
+    })
+}
+
+startApp()
+

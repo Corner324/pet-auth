@@ -22,19 +22,26 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
       body: JSON.stringify({ username, password }) // Отправляем данные в формате JSON
     })
     .then(response => {
-      if (!response.ok) {
+      console.log(response)
+      if (response.redirected) {
+        console.log("Redirected!")
+        window.location.href = "/"; // Перенаправление на новую страницу, указанную в Location заголовке ответа
+      }
+      else if (!response.ok) {
         throw new Error('Ошибка при запросе на сервер');
       }
-      return response.json();
+      else{
+        return response.json();
+      }
     })
     .then(data => {
       // Обрабатываем ответ от сервера (например, сохраняем токен аутентификации в localStorage)
       //window.alert('Successful registration')
       console.log('Успешная авторизация:', data);
-      //window.location.replace("http://127.0.0.1:8000/");
+      // Здесь можно выполнить перенаправление пользователя на другую страницу и т.д.
     })
     .catch(error => {
-      console.error('Ошибка: ', error);
+      console.error('Ошибка:', error);
       // Обработка ошибок при авторизации
     });
 

@@ -22,10 +22,17 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
       body: JSON.stringify({ username, password }) // Отправляем данные в формате JSON
     })
     .then(response => {
-      if (!response.ok) {
+      console.log(response)
+      if (response.status == 301) {
+        console.log("Redirected!")
+        window.location.href = response.url; // Перенаправление на новую страницу, указанную в Location заголовке ответа
+      }
+      else if (!response.ok) {
         throw new Error('Ошибка при запросе на сервер');
       }
-      return response.json();
+      else{
+        return response.json();
+      }
     })
     .then(data => {
       // Обрабатываем ответ от сервера (например, сохраняем токен аутентификации в localStorage)
