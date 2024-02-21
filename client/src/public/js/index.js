@@ -22,17 +22,14 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
       body: JSON.stringify({ username, password }) // Отправляем данные в формате JSON
     })
     .then(response => {
-      console.log(response)
-      if (response.status == 301) {
-        console.log("Redirected!")
-        window.location.href = response.url; // Перенаправление на новую страницу, указанную в Location заголовке ответа
-      }
-      else if (!response.ok) {
-        throw new Error('Ошибка при запросе на сервер');
+      
+      if (!response.ok) {
+        throw new Error('Ошибка при запросе на сервер'); // Почему это не пишет!!!
       }
       else{
         return response.json();
       }
+
     })
     .then(data => {
       // Обрабатываем ответ от сервера (например, сохраняем токен аутентификации в localStorage)
@@ -41,7 +38,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
       // Здесь можно выполнить перенаправление пользователя на другую страницу и т.д.
     })
     .catch(error => {
-      console.error('Ошибка:', error);
+      console.log('Внимание ошибка:', error);
       // Обработка ошибок при авторизации
     });
 

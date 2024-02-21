@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 const { DB } = require('./work_db.js');
 
-
 const app = express()
 
 const actual_dir = __dirname.split('\\').slice(0, -1).join('\\')
@@ -16,7 +15,6 @@ const urlencodedParser = express.urlencoded({extended: false});
 
 const PORT = 8000;
 const HOSTNAME = '127.0.0.1';
-
 
 
 
@@ -39,27 +37,25 @@ app.post('/', (req, res) => {
         if (error) {
             console.error('Error! ', error);
         } else if (result == false){
-            console.error('Error! Invalid');
+            console.error('Error! Invalid login or password');
+            res.status(401).json({ "Error": "Unauthorized" });
+            res.end()
+
         }
         else{
             console.log('Success! ', result); // Обработка результата запроса
+            res.status(200).json({ username, password });
+
         }
     });
 
     db.closeCon();
     
     console.log(username, password)
-    res.status(200).json({ username, password });
-    res.end()
+
     
-    // Пример простой проверки на основе хардкодированных значений
-    // if (username === 'user' && password === 'password') {
-    //   // В случае успешной аутентификации отправляем ответ об успешной авторизации
-    //   res.status(200).json({ message: 'Успешная аутентификация' });
-    // } else {
-    //   // В случае ошибки отправляем соответствующий статус и сообщение
-    //   res.status(401).json({ message: 'Неверные учетные данные' });
-    // }
+    
+
   });
 
   app.post('/registration', async (req, res) => {
@@ -68,16 +64,9 @@ app.post('/', (req, res) => {
     
     await db.querry("INSERT INTO accounts(login, password) VALUES(?, ?)", [username, password], (error, result) => {
         if (error) {
-            console.error(error);
-            
-        } else {
-            console.log(result); // Обработка результата запроса
-    
-            console.log(username, password)
-            console.log("Сейчас будет редирект!")
-            
-        }
 
+            console.error(error);
+        } 
     });
 
     await db.querry("SELECT * FROM accounts", [], (error, result) => {
@@ -85,20 +74,13 @@ app.post('/', (req, res) => {
             console.error(error);
         } else {
             console.log(result); // Обработка результата запроса
-            
         }
     });
 
-    db.closeCon();
+    await db.closeCon();
 
     res.redirect(301, "/")
-    //res.status(301).json("Redirected")
-
-    
-    //res.status(200).json({ message: 'Успешная регистрация' });
-    // res.status(200).json({ username, password });
-    // res.end()
-
+   
     
     // Пример простой проверки на основе хардкодированных значений
     // if (username === 'user' && password === 'password') {
@@ -109,6 +91,7 @@ app.post('/', (req, res) => {
     //   res.status(401).json({ message: 'Неверные учетные данные' });
     // }
   });
+
 
 async function startApp(){
 

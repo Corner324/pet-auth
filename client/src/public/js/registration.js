@@ -22,7 +22,6 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
       body: JSON.stringify({ username, password }) // Отправляем данные в формате JSON
     })
     .then(response => {
-      console.log(response)
       if (response.redirected) {
         console.log("Redirected!")
         window.location.href = "/"; // Перенаправление на новую страницу, указанную в Location заголовке ответа
