@@ -26,6 +26,10 @@ app.get('/registration', (req, res) => {
     res.sendFile( actual_dir + '/client/src/registration.html')
 })
 
+app.get('/apanel', (req, res) => {
+    res.sendFile( actual_dir + '/client/src/panel.html')
+})
+
 
 app.post('/', (req, res) => {
     let db = new DB('accounts');
@@ -44,7 +48,8 @@ app.post('/', (req, res) => {
         }
         else{
             console.log('Success! ', result); // Обработка результата запроса
-            res.status(200).json({ username, password });
+            res.status(301).json({ redirectURL: '/apanel' });
+            //res.status(200).json({ username, password });
 
         }
     });

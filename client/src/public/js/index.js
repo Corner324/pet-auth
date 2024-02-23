@@ -22,20 +22,16 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
       body: JSON.stringify({ username, password }) // Отправляем данные в формате JSON
     })
     .then(response => {
-      
-      if (!response.ok) {
-        throw new Error('Ошибка при запросе на сервер'); // Почему это не пишет!!!
-      }
-      else{
-        return response.json();
-      }
-
+      return response.json();
     })
     .then(data => {
-      // Обрабатываем ответ от сервера (например, сохраняем токен аутентификации в localStorage)
-      //window.alert('Successful registration')
-      console.log('Успешная авторизация:', data);
-      // Здесь можно выполнить перенаправление пользователя на другую страницу и т.д.
+      if (data.redirectURL) {
+        window.location.href = data.redirectURL;
+      }
+      else{
+        console.log('Успешная авторизация:', data);
+      }
+
     })
     .catch(error => {
       console.log('Внимание ошибка:', error);
