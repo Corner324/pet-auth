@@ -3,15 +3,18 @@ const bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 const { DB } = require('./work_db.js');
+const path = require('path')
 
 const app = express()
 
 const actual_dir = __dirname.split('\\').slice(0, -1).join('\\')
 
-app.use(express.static(actual_dir + "/client/src/public"));
-app.use(favicon(actual_dir + '/client/src/public/images/favicon.ico'));
+app.use(express.static(path.join(__dirname, 'src', 'public')));
+app.use(favicon(path.join(__dirname, 'favicon.ico')));
+
 app.use(bodyParser.json());
 app.use(cookieParser());
+
 
 const urlencodedParser = express.urlencoded({extended: false});
 
@@ -22,10 +25,10 @@ const HOSTNAME = '127.0.0.1';
 
 app.get('/', (req, res) => {
     if(req.cookies.UserData == 'user1'){
-        res.sendFile( actual_dir + '/client/src/index_APanel.html')
+        res.sendFile( __dirname + '/src/index_APanel.html')
     }
     else{
-        res.sendFile( actual_dir + '/client/src/index.html')
+        res.sendFile( __dirname + '/src/index.html')
     }
 })
 
@@ -34,12 +37,12 @@ app.get('/clearCookie', (req, res) => {
 })
 
 app.get('/registration', (req, res) => {
-    res.sendFile( actual_dir + '/client/src/registration.html')
+    res.sendFile( __dirname + '/src/registration.html')
 })
 
 app.get('/apanel', (req, res) => {
     if(req.cookies.UserData == 'user1'){
-        res.sendFile( actual_dir + '/client/src/panel.html')
+        res.sendFile( __dirname + '/src/panel.html')
     }
     else{
         res.sendStatus(401)
