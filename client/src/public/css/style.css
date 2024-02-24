@@ -11,6 +11,21 @@ body {
   font-family: "Titillium Web", sans-serif;
 }
 
+.footing {
+  font-size: 14px;
+  color: gray;
+  text-align: right;
+}
+
+p {
+  color: #ddd;
+  font-size: 16px;
+}
+
+
+
+
+
 a {
   text-decoration: none;
   color: #1ab188;

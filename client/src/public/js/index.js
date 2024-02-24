@@ -2,6 +2,9 @@
 const login_field = document.getElementById("login");
 const password_field = document.getElementById("password");
 const sub_button = document.getElementById("sub");
+const foot = document.getElementById("foot");
+
+foot.innerHTML += document.cookie.split(' ')[1];
 
 
 // sub_button.addEventListener("click", send_form);

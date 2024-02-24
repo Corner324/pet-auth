@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
+var cookieParser = require('cookie-parser');
 const { DB } = require('./work_db.js');
 
 const app = express()
@@ -10,6 +11,7 @@ const actual_dir = __dirname.split('\\').slice(0, -1).join('\\')
 app.use(express.static(actual_dir + "/client/src/public"));
 app.use(favicon(actual_dir + '/client/src/public/images/favicon.ico'));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 const urlencodedParser = express.urlencoded({extended: false});
 
@@ -19,7 +21,16 @@ const HOSTNAME = '127.0.0.1';
 
 
 app.get('/', (req, res) => {
-    res.sendFile( actual_dir + '/client/src/index.html')
+    if(req.cookies.UserData == 'user1'){
+        res.sendFile( actual_dir + '/client/src/index_APanel.html')
+    }
+    else{
+        res.sendFile( actual_dir + '/client/src/index.html')
+    }
+})
+
+app.get('/clearCookie', (req, res) => {
+    res.clearCookie('UserData').send({'Error': 'Cookie cleared!', redirectURL: '/' })
 })
 
 app.get('/registration', (req, res) => {
@@ -27,7 +38,12 @@ app.get('/registration', (req, res) => {
 })
 
 app.get('/apanel', (req, res) => {
-    res.sendFile( actual_dir + '/client/src/panel.html')
+    if(req.cookies.UserData == 'user1'){
+        res.sendFile( actual_dir + '/client/src/panel.html')
+    }
+    else{
+        res.sendStatus(401)
+    }
 })
 
 
@@ -48,6 +64,7 @@ app.post('/', (req, res) => {
         }
         else{
             console.log('Success! ', result); // Обработка результата запроса
+            res.cookie('UserData', 'user1', {expire: 360000 + Date.now()});
             res.status(301).json({ redirectURL: '/apanel' });
             //res.status(200).json({ username, password });
 
