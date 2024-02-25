@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 const { DB } = require('./work_db.js');
+const { HashPass } = require('./hash_pass.js');
 const path = require('path')
 
 const app = express()
@@ -53,30 +54,42 @@ app.get('/apanel', (req, res) => {
 app.post('/', (req, res) => {
     let db = new DB('accounts');
     const { username, password } = req.body; // Получаем данные из запроса
+    const HashGenerator = new HashPass();
+    HashGenerator.hashing(password).then((hashingPassword) =>{
 
-    console.log(req.body)
+        console.log('INFO: ', hashingPassword)
     
-    db.querry("SELECT login, password FROM accounts WHERE login=?", [username], (error, result) => {
-        if (error) {
-            console.error('Error! ', error);
-        } else if (result == false){
-            console.error('Error! Invalid login or password');
-            res.status(401).json({ "Error": "Unauthorized" });
-            res.end()
-
-        }
-        else{
-            console.log('Success! ', result); // Обработка результата запроса
-            res.cookie('UserData', 'user1', {expire: 360000 + Date.now()});
-            res.status(301).json({ redirectURL: '/apanel' });
-            //res.status(200).json({ username, password });
-
-        }
+        console.log(req.body)
+        
+        db.querry("SELECT login, password FROM accounts WHERE login=?", [username], (error, result) => {
+            if (error) {
+                console.error('Error! ', error);
+            } else if (result == false){
+                console.error('Error! Invalid login or password');
+                res.status(401).json({ "Error": "Unauthorized" });
+                res.end()
+    
+            }
+            else{
+                const correctPassword = HashGenerator.check_pass(hashingPassword, password);
+                if(!correctPassword){
+                    console.error('Error! Invalid login or password');
+                    res.status(401).json({ "Error": "Unauthorized" });
+                    res.end()
+                }
+                else{
+                    console.log('Success! ', result); // Обработка результата запроса
+                    res.cookie('UserData', 'user1', {expire: 360000 + Date.now()});
+                    res.status(301).json({ redirectURL: '/apanel' });
+                    //res.status(200).json({ username, password });
+                }
+            }
+        });
+    
+        db.closeCon();
+        
+        console.log(username, password)
     });
-
-    db.closeCon();
-    
-    console.log(username, password)
 
     
     
@@ -86,21 +99,25 @@ app.post('/', (req, res) => {
   app.post('/registration', async (req, res) => {
     let db = await new DB('accounts');
     const { username, password } = req.body; // Получаем данные из запроса
-    
-    await db.querry("INSERT INTO accounts(login, password) VALUES(?, ?)", [username, password], (error, result) => {
+    const HashGenerator = new HashPass();
+    const hashedPassword = await HashGenerator.hashing(password);
+
+    await db.querry("INSERT INTO accounts(login, password) VALUES(?, ?)", [username, hashedPassword], (error, result) => {
         if (error) {
 
             console.error(error);
         } 
+        console.log(hashedPassword);
     });
 
-    await db.querry("SELECT * FROM accounts", [], (error, result) => {
-        if (error) {
-            console.error(error);
-        } else {
-            console.log(result); // Обработка результата запроса
-        }
-    });
+    
+    // await db.querry("SELECT * FROM accounts", [], (error, result) => {
+    //     if (error) {
+    //         console.error(error);
+    //     } else {
+    //         console.log(result); // Обработка результата запроса
+    //     }
+    // });
 
     await db.closeCon();
 
@@ -115,6 +132,7 @@ app.post('/', (req, res) => {
     //   // В случае ошибки отправляем соответствующий статус и сообщение
     //   res.status(401).json({ message: 'Неверные учетные данные' });
     // }
+    
   });
 
 
