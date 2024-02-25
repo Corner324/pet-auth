@@ -3,29 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pet-Auth / APanel</title>
-  <link rel="stylesheet" href="/css/style.css"> 
+  <title>Pet-Auth / Log In</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 <body>
 
   <div class="form" id="loginForm">
       
     <ul class="tab-group">
       <li class="tab"><a href="/registration">Sign Up</a></li>
-      <li class="tab"><a href="/">Log In</a></li>
-      <li class="tab active"><a href="/">APanel</a></li>
+      <li class="tab active"><a href="/">Log In</a></li>
     </ul>
     
     <div class="tab-content">
       <div id="signup">   
-        <h1>Admin Panel</h1>
+        <h1>Log In</h1>
         
         <form action="/" method="post">
 
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam pariatur esse quasi expedita natus, distinctio cum. Ipsa ex quia quas beatae quod magnam earum optio voluptate! Vel omnis consectetur sunt!</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam pariatur esse quasi expedita natus, distinctio cum. Ipsa ex quia quas beatae quod magnam earum optio voluptate! Vel omnis consectetur sunt!</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam pariatur esse quasi expedita natus, distinctio cum. Ipsa ex quia quas beatae quod magnam earum optio voluptate! Vel omnis consectetur sunt!</p>
+        <div class="field-wrap">
+          <input required autocomplete="off" placeholder="Email Address" id="login"/>
+        </div>
         
-        <button type="submit" class="button button-block"/>🍪 Clear Cookie</button>
+        <div class="field-wrap">
+          <input type="password"required autocomplete="off" placeholder="Set Password" id="password"/>
+        </div>
+        
+        <button type="submit" class="button button-block"/>Get Started</button>
+
         <p class="footing" id="foot"></p>
         
       </form>
@@ -62,9 +66,8 @@
   </div><!-- tab-content -->
   
 </div> <!-- /form -->
-      
 
-  <script src="./js/panel.js"></script>
+  <script src="/javascripts/index.js"></script>
   
 </body>
 </html>

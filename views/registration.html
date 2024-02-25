@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pet-Auth / Log In</title>
-  <link rel="stylesheet" href="/css/style.css"> 
+  <title>Pet-Auth / Sign Up</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 <body>
 
   <div class="form" id="loginForm">
       
     <ul class="tab-group">
-      <li class="tab"><a href="/registration">Sign Up</a></li>
-      <li class="tab active"><a href="/">Log In</a></li>
-      <li class="tab"><a href="/APanel">APanel</a></li>
+      <li class="tab active"><a href="/registration">Sign Up</a></li>
+      <li class="tab"><a href="/">Log In</a></li>
     </ul>
     
     <div class="tab-content">
       <div id="signup">   
-        <h1>Log In</h1>
+        <h1>Sign Up</h1>
         
         <form action="/" method="post">
+      
 
         <div class="field-wrap">
           <input required autocomplete="off" placeholder="Email Address" id="login"/>
@@ -28,9 +28,7 @@
         <div class="field-wrap">
           <input type="password"required autocomplete="off" placeholder="Set Password" id="password"/>
         </div>
-        
         <button type="submit" class="button button-block"/>Get Started</button>
-
         <p class="footing" id="foot"></p>
         
         </form>
@@ -67,8 +65,8 @@
     </div><!-- tab-content -->
     
 </div> <!-- /form -->
-
-  <script src="./js/index.js"></script>
   
+<script src="/javascripts/registration.js"></script>
+
 </body>
 </html>

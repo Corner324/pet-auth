@@ -9,8 +9,8 @@ const app = express()
 
 const actual_dir = __dirname.split('\\').slice(0, -1).join('\\')
 
-app.use(express.static(path.join(__dirname, 'src', 'public')));
-app.use(favicon(path.join(__dirname, 'favicon.ico')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -25,10 +25,10 @@ const HOSTNAME = '127.0.0.1';
 
 app.get('/', (req, res) => {
     if(req.cookies.UserData == 'user1'){
-        res.sendFile( __dirname + '/src/index_APanel.html')
+        res.sendFile( __dirname + '/views/index_APanel.html')
     }
     else{
-        res.sendFile( __dirname + '/src/index.html')
+        res.sendFile( __dirname + '/views/index.html')
     }
 })
 
@@ -37,12 +37,12 @@ app.get('/clearCookie', (req, res) => {
 })
 
 app.get('/registration', (req, res) => {
-    res.sendFile( __dirname + '/src/registration.html')
+    res.sendFile( __dirname + '/views/registration.html')
 })
 
 app.get('/apanel', (req, res) => {
     if(req.cookies.UserData == 'user1'){
-        res.sendFile( __dirname + '/src/panel.html')
+        res.sendFile( __dirname + '/views/panel.html')
     }
     else{
         res.sendStatus(401)
