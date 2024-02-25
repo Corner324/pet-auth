@@ -66,23 +66,34 @@ class Controller{
         const { username, password } = req.body; // Получаем данные из запроса
         const HashGenerator = new HashPass();
         const hashedPassword = await HashGenerator.hashing(password);
+
+        let candidateExist = false;
     
-        await db.querry("INSERT INTO accounts(login, password) VALUES(?, ?)", [username, hashedPassword], (error, result) => {
-            if (error) {
-    
-                console.error(error);
-            } 
-            console.log(hashedPassword);
-        });
-    
-        /* await db.querry("SELECT * FROM accounts", [], (error, result) => {
+        await db.querry("SELECT * FROM accounts WHERE login=?", [username], (error, result) => {
             if (error) {
                 console.error(error);
-            } else {
-                console.log(result); // Обработка результата запроса
+            } else if(result) {
+                candidateExist = true;
+                res.status(400).json({message: "Account with some login already exist"})
             }
-        }); */
+            else{
+                
+            }
+        }); 
+
+        if(!candidateExist){
+            await db.querry("INSERT INTO accounts(login, password) VALUES(?, ?)", [username, hashedPassword], (error, result) => {
+                if (error) {
+        
+                    console.error(error);
+                } 
+                console.log(hashedPassword);
+            });
+        }
+
     
+
+        candidateExist = false;
         await db.closeCon();
         res.redirect(301, "/")
        
