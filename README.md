@@ -1,6 +1,21 @@
-# Pet Project Authorization
+<br/>
+<p align="center">
+  <a href="https://github.com/Corner324/TelegramPredictions">
+    <img src="https://i.imgur.com/MfUUIxB.png" alt="Logo" width="80" height="80">
+  </a>
 
-This is a pet project focused on implementing user authentication and authorization using Express.js. It provides basic functionality for user login, registration, and access control to different parts of the application.
+  <h3 align="center">Pet Project Authorization</h3>
+
+  <p align="center">
+    This is a pet project focused on implementing user authentication and authorization using Express.js. It provides basic functionality for user login, registration, and access control to different parts of the application.
+    <br/>
+    <br/>
+  </p>
+</p>
+
+![Downloads](https://img.shields.io/github/downloads/Corner324/TelegramPredictions/total) ![Contributors](https://img.shields.io/github/contributors/Corner324/TelegramPredictions?color=dark-green) ![Issues](https://img.shields.io/github/issues/Corner324/TelegramPredictions) ![License](https://img.shields.io/github/license/Corner324/TelegramPredictions) 
+
+
 
 ## Features
 
