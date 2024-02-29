@@ -12,42 +12,38 @@ foot.innerHTML += document.cookie.split(' ')[1];
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Предотвращаем стандартное поведение формы
     
-    // Получаем значения логина и пароля из полей ввода
+
     const username = login_field.value;
     const password = password_field.value;
     
-    // Отправляем запрос на бэкенд
+
     fetch('/registration', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username, password }) // Отправляем данные в формате JSON
+      body: JSON.stringify({ username, password }) 
     })
     .then(response => {
       if (response.redirected) {
         console.log("Redirected!")
-        window.location.href = "/"; // Перенаправление на новую страницу, указанную в Location заголовке ответа
+        window.location.href = "/";
       }
       else if (!response.ok) {
-        throw new Error('Ошибка при запросе на сервер');
+        response.json().then(dat => {
+            console.error("Ошибка: ", dat);
+        })
       }
       else{
         return response.json();
       }
     })
     .then(data => {
-      // Обрабатываем ответ от сервера (например, сохраняем токен аутентификации в localStorage)
-      //window.alert('Successful registration')
-      console.log('Успешная авторизация:', data);
-      // Здесь можно выполнить перенаправление пользователя на другую страницу и т.д.
+      console.log(data);
     })
-    .catch(error => {
-      console.error('Ошибка:', error);
-      // Обработка ошибок при авторизации
-    });
-
-
+    // .catch(error => {
+    //   console.log(error)
+    // })
   });
   
 
