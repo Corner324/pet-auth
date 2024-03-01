@@ -16,10 +16,10 @@ class DB {
         });
     }
 
-    querry(req, arg, callback) {
-        this.db.serialize(() => {
-            if (req.split(' ')[0] == 'SELECT'){
-                this.db.all(req, arg, (err, row) => {
+    async querry(req, arg, callback) {
+        this.db.serialize(async () => {
+            if (req.split(' ')[0] == 'SELECT') {
+                await this.db.all(req, arg, (err, row) => {
                     if (err) {
                         callback("Error! " + err.message, null);
                     } else {
@@ -27,7 +27,7 @@ class DB {
                     }
                 });
             } else {
-                this.db.each(req, arg, (err, row) => {
+                this.db.each(req, arg,  (err, row) => {
                     if (err) {
                         callback("Error! " + err.message, null);
                     } else {

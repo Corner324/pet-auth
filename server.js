@@ -9,6 +9,12 @@ const router = require('./router')
 const session = require("express-session");
 const {createClient} = require("redis");
 
+/*
+*  TODO:
+*   1) Перводить все на MongoDB
+*
+* */
+
 
 const PORT = 8000;
 const HOSTNAME = '127.0.0.1';
