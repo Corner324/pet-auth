@@ -17,7 +17,7 @@ router.post('/registration',
     body('password').notEmpty().isString().isLength({min: 3, max: 10}),
     controller.registration)
 
-router.get('/apanel', controller.getApanel)
+router.get('/APanel', controller.getApanel)
 
 router.get('/clearCookie', controller.clearCookie)
 

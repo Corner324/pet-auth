@@ -2,11 +2,12 @@ const {createClient} = require("redis");
 
 class redisDB{
 
-    async setConnectrion(){
+    async setConnection(){
         const client = createClient();
         client.on('error', err => console.log('Redis Client Error', err));
-        return await client.connect();
+        await client.connect()
+        return client
     }
 }
 
-module.exports = new redisDB
+module.exports = redisDB
