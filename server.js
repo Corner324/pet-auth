@@ -8,6 +8,9 @@ const path = require('path')
 const router = require('./router')
 const session = require("express-session");
 const {createClient} = require("redis");
+const mongoose = require('mongoose');
+const {uriMongo} = require("./config.js")
+
 
 /*
 *  TODO:
@@ -16,10 +19,13 @@ const {createClient} = require("redis");
 * */
 
 
-const PORT = 8000;
+const PORT = 8000
 const HOSTNAME = '127.0.0.1';
 
 const app = express()
+
+
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
@@ -34,6 +40,7 @@ app.use("/", router)
 
 async function startApp(){
 
+    await mongoose.connect(uriMongo);
     app.listen(PORT, () => {
         console.log(`Server running at http://${HOSTNAME}:${PORT}/`);
     })

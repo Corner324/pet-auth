@@ -28,8 +28,8 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
       return response.json();
     })
     .then(data => {
-      if (data.redirectURL) {
-        window.location.href = data.redirectURL;
+      if (data.url) {
+        window.location.href = data.url;
       }
       else{
         console.log('Успешная авторизация:', data);

@@ -9,6 +9,7 @@ const crypto = require('crypto');
 const session = require('express-session');
 const { secret } = require('./config')
 const redisDB = require('./redisDB')
+const User = require("./models/User")
 
 
 
@@ -93,64 +94,41 @@ class Controller {
     }
 
     async registration(req, res){
-        try {
-            let db = await new DB('accounts');
-            const {username, password} = req.body;
-            const HashGenerator = new HashPass();
-            const hashedPassword = await HashGenerator.hashing(password);
 
-            const error_result = validationResult(req);
+        let db = await new DB('accounts');
+        const {username, password} = req.body;
+        const HashGenerator = new HashPass();
+        const hashedPassword = await HashGenerator.hashing(password);
 
-            debugger;
-            console.log(' ОТМЕТКА 1 ')
-            if (!error_result.isEmpty()) {
-                console.log('ОШИБКА РЕГИСТРАЦИИ ПО ДАННЫМ');
-                res.status(401).send({errors: error_result.array()});
-                res.end()
-            }
+        const error_result = validationResult(req);
 
-            let candidateExist = false;
-            console.log(' ОТМЕТКА 2 ')
-            await db.querry("SELECT * FROM accounts WHERE login=?", [username], (error, result) => {
-                if (error) {
-                    console.log('ОШИБКА РЕГИСТРАЦИИ ПО БД');
-                    console.error(error);
-                    return 0
-                } else if (result.length) {
-                    console.log('А там уже', result)
-                    candidateExist = true;
-                    console.log('ТАКОЙ ЛОГИН УЖЕ ЕСТЬ');
-                    res.status(400).json({message: "Account with this login already exist"})
-                    return res.end()
-                }
-                else{
-                    console.log(' ОТМЕТКА 3 ')
-                }
-            });
-            console.log(' ОТМЕТКА 4 ')
-            if (!candidateExist) {
-                await db.querry("INSERT INTO accounts(login, password) VALUES(?, ?)", [username, hashedPassword], async (error, result) => {
-                    if (error) {
-                        console.log('ОШИБКА РЕГИСТРАЦИИ ПО БД 2')
-                        console.error(error);
-                        return 0
-                    } else {
-                        console.log('ДАЕМ КУКИ')
-                        res.cookie('UserData', generate_key(), {maxAge: 3600 * 24});
-                        res.cookie('UserName', username, {maxAge: 3600 * 24});
-
-                        candidateExist = false;
-                        await db.closeCon();
-
-                        res.redirect(301, "/")
-                        res.send()
-                    }
-                });
-            }
-        } catch (error) {
-            console.error('ОШИБКА РЕГИСТРАЦИИ ПО БД', error);
-            return res.status(500).send({ message: "Internal Server Error" });
+        debugger;
+        console.log(' ОТМЕТКА 1 ')
+        if (!error_result.isEmpty()) {
+            console.log('ОШИБКА РЕГИСТРАЦИИ ПО ДАННЫМ');
+            res.status(401).send({errors: error_result.array()});
+            res.end()
         }
+
+        console.log(' ОТМЕТКА 2 ')
+
+        try {
+            const candidate = await User.findOne({username})
+            if(candidate){
+                res.status(400).json({message: "Account with this login already exist"})
+            }
+            const user = new User({username, password: hashedPassword, roles: 'USER'})
+            user.save()
+            console.log('ДАЕМ КУКИ')
+            res.cookie('UserData', generate_key(), {maxAge: 3600 * 24});
+            res.cookie('UserName', username, {maxAge: 3600 * 24});
+            res.status(300).json({ url: '/', message: 'Account successful created'})
+        }
+        catch (e){
+            console.log(e)
+            res.status(400).json({message: 'Error with create account!'})
+        }
+
     }
 
     async getApanel(req, res){

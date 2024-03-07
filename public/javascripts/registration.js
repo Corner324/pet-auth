@@ -24,19 +24,18 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
       },
       body: JSON.stringify({ username, password }) 
     })
-    .then(response => {
-      if (response.redirected) {
-        console.log("Redirected!")
-        window.location.href = "/";
-      }
-      else if (!response.ok) {
-        response.json().then(dat => {
-            console.error("Ошибка: ", dat);
-        })
-      }
-      else{
-        return response.json();
-      }
+    .then(async response => {
+        if (response.status === 300) {
+            console.log("Redirected!")
+            const js = await response.json()
+            window.location.href = js.url
+        } else if (!response.ok) {
+            response.json().then(dat => {
+                console.error("Ошибка: ", dat);
+            })
+        } else {
+            return response.json();
+        }
     })
     .then(data => {
       console.log(data);
