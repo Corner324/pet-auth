@@ -10,4 +10,4 @@ class redisDB{
     }
 }
 
-module.exports = redisDB
+module.exports = new redisDB()

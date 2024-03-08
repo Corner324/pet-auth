@@ -1,14 +1,12 @@
 const bodyParser = require('body-parser');
-const favicon = require('serve-favicon');
-const cookieParser = require('cookie-parser');
-const { DB } = require('./work_db.js');
-const { HashPass } = require('./hash_pass.js');
+const { HashPass } = require('./utils/hash_pass.js');
 const path = require('path')
 const { query, validationResult } = require('express-validator');
 const crypto = require('crypto');
 const session = require('express-session');
-const { secret } = require('./config')
-const redisDB = require('./redisDB')
+// const { secret } = require('./config')
+// const redisDB = require('./databases/redisDB.js')
+const { redisClient } = require('./server')
 const User = require("./models/User")
 
 
@@ -20,12 +18,10 @@ const generate_key = function() {
 class Controller {
 
     async getLogin(req, res){
-        const redisClient = new redisDB()
-        const cliient = await redisClient.setConnection()
         if(req.cookies.UserName) {
             const usr_name = req.cookies.UserName;
             console.log('UserName from cookies - ', usr_name)
-            const usr_data = await cliient.get(usr_name);
+            const usr_data = await redisClient.get(usr_name);
             if(req.cookies.UserData === usr_data){
                 res.sendFile( __dirname + '/views/index_APanel.html')
             }
@@ -45,7 +41,6 @@ class Controller {
         const error_result = validationResult(req);
 
         if (!error_result.isEmpty()) {
-            console.log('Ошибка 1')
             return res.status(401).send({ errors: error_result.array() });
         }
 
@@ -53,20 +48,15 @@ class Controller {
 
             console.log('hashingPassword: ', hashingPassword);
 
-
             const candidate = await User.findOne({username})
 
             const correctPassword = HashGenerator.check_pass(candidate.get('password'), password);
             if (!correctPassword) {
-                console.log('Ошибка 4')
                 res.status(401).json({message: "Unauthorized, invalid login or password"});
             } else {
                 // req.session.cookie()
 
-
                 res.status(301).json({url: '/apanel'})
-
-
             }
         });
     }
@@ -83,14 +73,9 @@ class Controller {
 
         const error_result = validationResult(req);
 
-        debugger;
-        console.log(' ОТМЕТКА 1 ')
         if (!error_result.isEmpty()) {
-            console.log('ОШИБКА РЕГИСТРАЦИИ ПО ДАННЫМ');
             res.status(401).send({errors: error_result.array()});
         }
-
-        console.log(' ОТМЕТКА 2 ')
 
         try {
             const candidate = await User.findOne({username})
@@ -104,21 +89,20 @@ class Controller {
             res.cookie('UserData', generatedCookie, {maxAge: 3600 * 24 * 5});
             res.cookie('UserName', username, {maxAge: 3600 * 24 * 5});
 
-            const redisClient = new redisDB()
-            const cliient = await redisClient.setConnection()
-            cliient.set(username, generatedCookie)
+            // const redisClient = new redisDB()
+            // const cliient = await redisClient.setConnection()
+            await redisClient.set(username, generatedCookie)
 
             res.status(300).json({ url: '/', message: 'Account successful created'})
         }
         catch (e){
             console.log(e)
-            res.status(400).json({message: 'Error with create account!'})
+            res.status(400).json({message: 'Error with create account! ' + e})
         }
 
     }
 
     async getApanel(req, res){
-        console.log('Скрипт с апанели')
         const redisClient = new redisDB()
         const cliient = await redisClient.setConnection()
         if(req.cookies.UserName) {
@@ -126,7 +110,6 @@ class Controller {
             console.log('UserName from cookies - ', usr_name)
             const usr_data = await cliient.get(usr_name);
             if(req.cookies.UserData === usr_data){
-                console.log('Вот панель!')
                 res.sendFile( __dirname + '/views/panel.html')
             }
             else{
