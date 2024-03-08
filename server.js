@@ -9,6 +9,7 @@ const router = require('./router')
 const mongoose = require('mongoose');
 const {uriMongo} = require("./config.js")
 const redisDB = require('./databases/redisDB.js')
+const dotenv = require('dotenv')
 
 
 /*
@@ -19,9 +20,9 @@ const redisDB = require('./databases/redisDB.js')
 *
 * */
 
-
-const PORT = 8000
-const HOSTNAME = '127.0.0.1';
+dotenv.config()
+const PORT = process.env.PORT
+const HOSTNAME = process.env.HOSTNAME
 
 const app = express()
 
