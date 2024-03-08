@@ -1,12 +1,12 @@
-const bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
 const { HashPass } = require('./utils/hash_pass.js')
 const path = require('path')
 const { query, validationResult } = require('express-validator')
 const crypto = require('crypto')
 const session = require('express-session')
 // const { secret } = require('./config')
-// const redisDB = require('./databases/redisDB.js')
-const { redisClient } = require('./server')
+const redisDB = require('./databases/redisDB.js')
+//const redisClient = require('./server')
 const User = require('./models/User')
 
 const generate_key = function () {
@@ -92,9 +92,16 @@ class Controller {
             res.cookie('UserData', generatedCookie, { maxAge: 3600 * 24 * 5 })
             res.cookie('UserName', username, { maxAge: 3600 * 24 * 5 })
 
+            let redisClient = redisDB.getClient()
+
             // const redisClient = new redisDB()
             // const cliient = await redisClient.setConnection()
-            await redisClient.set(username, generatedCookie)
+            console.log('ALERT!', typeof redisClient);
+
+
+            console.log(Object.getOwnPropertyNames(redisClient));
+            // redisClient.logog()
+            await redisClient.getClient.set(username, generatedCookie)
 
             res.status(300).json({
                 url: '/',

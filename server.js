@@ -1,10 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-var favicon = require('serve-favicon')
-var cookieParser = require('cookie-parser')
+const favicon = require('serve-favicon')
+const cookieParser = require('cookie-parser')
 //const { HashPass } = require('./utils/hash_pass');
 const path = require('path')
-const router = require('./router')
+const router  = require('./router')
 //const session = require("express-session");
 const mongoose = require('mongoose')
 const { uriMongo } = require('./config.js')
@@ -34,13 +34,12 @@ app.use('/', router)
 
 async function startApp() {
     await mongoose.connect(uriMongo)
-    const redisClient = await redisDB.setConnection()
-    return redisClient
+    return await redisDB.setConnection()
 }
 
 startApp()
     .then((redisClient) => {
-        module.exports.redisClient = redisClient
+
         app.listen(PORT, () => {
             console.log(`Server running at http://${HOSTNAME}:${PORT}/`)
         })
