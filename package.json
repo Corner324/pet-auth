@@ -1,31 +1,35 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
-  "scripts": {
-    "start": "node ./server.js",
-    "live": "nodemon ./server.js"
-  },
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "argon2": "^0.40.1",
-    "body-parser": "^1.20.2",
-    "compass-mixins": "^0.12.12",
-    "connect-redis": "^7.1.1",
-    "cookie-parser": "^1.4.6",
-    "crypto": "^1.0.1",
-    "dotenv": "^16.4.5",
-    "express": "^4.18.2",
-    "express-session": "^1.18.0",
-    "express-validator": "^7.0.1",
-    "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.4.0",
-    "mongoose": "^8.2.1",
-    "nodemon": "^3.0.3",
-    "redis": "^4.6.13",
-    "serve-favicon": "^2.5.0",
-    "sqlite3": "^5.1.7"
-  }
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "main.js",
+    "scripts": {
+        "start": "node ./server.js",
+        "live": "nodemon ./server.js",
+        "prettier": "prettier  — write **/*.js"
+    },
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "argon2": "^0.40.1",
+        "body-parser": "^1.20.2",
+        "compass-mixins": "^0.12.12",
+        "connect-redis": "^7.1.1",
+        "cookie-parser": "^1.4.6",
+        "crypto": "^1.0.1",
+        "dotenv": "^16.4.5",
+        "express": "^4.18.2",
+        "express-session": "^1.18.0",
+        "express-validator": "^7.0.1",
+        "jsonwebtoken": "^9.0.2",
+        "mongodb": "^6.4.0",
+        "mongoose": "^8.2.1",
+        "nodemon": "^3.0.3",
+        "redis": "^4.6.13",
+        "serve-favicon": "^2.5.0",
+        "sqlite3": "^5.1.7"
+    },
+    "devDependencies": {
+        "prettier": "^3.2.5"
+    }
 }

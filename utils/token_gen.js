@@ -1,17 +1,14 @@
-const jsonwebtoken = require('jsonwebtoken');
+const jsonwebtoken = require('jsonwebtoken')
 
-class token_gen{
-    generate_token(login){
-
+class token_gen {
+    generate_token(login) {
         const data = {
-            name: login
-        };
+            name: login,
+        }
 
-        const signature = 'MySuP3R_z3kr3t'; // ALERT
-        const expiration = '6h';
+        const signature = 'MySuP3R_z3kr3t' // ALERT
+        const expiration = '6h'
 
-        return jsonwebtoken.sign({data}, signature, {expiresIn: expiration});
+        return jsonwebtoken.sign({ data }, signature, { expiresIn: expiration })
     }
-
-
 }

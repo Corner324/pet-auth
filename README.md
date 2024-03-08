@@ -13,27 +13,25 @@
   </p>
 </p>
 
-![Downloads](https://img.shields.io/github/downloads/Corner324/TelegramPredictions/total) ![Contributors](https://img.shields.io/github/contributors/Corner324/TelegramPredictions?color=dark-green) ![Issues](https://img.shields.io/github/issues/Corner324/TelegramPredictions) ![License](https://img.shields.io/github/license/Corner324/TelegramPredictions) 
-
-
+![Downloads](https://img.shields.io/github/downloads/Corner324/TelegramPredictions/total) ![Contributors](https://img.shields.io/github/contributors/Corner324/TelegramPredictions?color=dark-green) ![Issues](https://img.shields.io/github/issues/Corner324/TelegramPredictions) ![License](https://img.shields.io/github/license/Corner324/TelegramPredictions)
 
 ## Features
 
-- User login
-- User registration
-- Access control for different parts of the application
-- Clearing cookies
+-   User login
+-   User registration
+-   Access control for different parts of the application
+-   Clearing cookies
 
 ## Technologies Used
 
-- Node.js
-- Express.js
-- Body-parser
-- Express-session
-- Express-validator
-- Redis (for session storage)
-- Serve-favicon
-- Cookie-parser
+-   Node.js
+-   Express.js
+-   Body-parser
+-   Express-session
+-   Express-validator
+-   Redis (for session storage)
+-   Serve-favicon
+-   Cookie-parser
 
 ## Installation
 
@@ -66,23 +64,20 @@ npm start
 
 ## API Endpoints
 
-- `GET /`: Landing page
-- `POST /`: User login
-- `GET /registration`: Registration page
-- `POST /registration`: User registration
-- `GET /apanel`: Access control panel (restricted)
-- `GET /clearCookie`: Clear cookies
+-   `GET /`: Landing page
+-   `POST /`: User login
+-   `GET /registration`: Registration page
+-   `POST /registration`: User registration
+-   `GET /apanel`: Access control panel (restricted)
+-   `GET /clearCookie`: Clear cookies
 
 ## Contributors
 
-- [Corner324](https://github.com/Corner324)
-
+-   [Corner324](https://github.com/Corner324)
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
-
 
 ## How to Contribute
 
