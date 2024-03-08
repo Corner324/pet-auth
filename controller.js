@@ -23,14 +23,14 @@ class Controller {
             console.log('UserName from cookies - ', usr_name)
             const usr_data = await redisClient.get(usr_name);
             if(req.cookies.UserData === usr_data){
-                res.sendFile( __dirname + '/views/index_APanel.html')
+                res.sendFile(path.join(__dirname, 'views', 'index_APanel.html'))
             }
             else{
-                res.sendFile( __dirname + '/views/index.html');
+                res.sendFile(path.join(__dirname, 'views', 'index.html'));
             }
         }
         else {
-            res.sendFile( __dirname + '/views/index.html')
+            res.sendFile(path.join(__dirname, 'views', 'index.html'))
         }
     }
 
@@ -62,7 +62,7 @@ class Controller {
     }
 
     async getRegistration(req, res){
-        res.sendFile( __dirname + '/views/registration.html')
+        res.sendFile(path.join(__dirname, 'views', 'registration.html'))
     }
 
     async registration(req, res){
@@ -110,7 +110,7 @@ class Controller {
             console.log('UserName from cookies - ', usr_name)
             const usr_data = await cliient.get(usr_name);
             if(req.cookies.UserData === usr_data){
-                res.sendFile( __dirname + '/views/panel.html')
+                res.sendFile(path.join(__dirname, 'views', 'panel.html'))
             }
             else{
                 res.status(400).json({message: 'Error with cookie!'})
