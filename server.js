@@ -1,51 +1,49 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-var favicon = require('serve-favicon');
-var cookieParser = require('cookie-parser');
-const { DB } = require('./work_db.js');
-const { HashPass } = require('./hash_pass.js');
+const express = require('express')
+const bodyParser = require('body-parser')
+const favicon = require('serve-favicon')
+const cookieParser = require('cookie-parser')
+//const { HashPass } = require('./utils/hash_pass');
 const path = require('path')
-const router = require('./router')
-const session = require("express-session");
-const {createClient} = require("redis");
-const mongoose = require('mongoose');
-const {uriMongo} = require("./config.js")
-
+const router  = require('./router')
+//const session = require("express-session");
+const mongoose = require('mongoose')
+const { uriMongo } = require('./config.js')
+const redisDB = require('./databases/redisDB.js')
+const dotenv = require('dotenv')
 
 /*
 *  TODO:
-*   1) Перводить все на MongoDB
+*   1) Первести все на MongoDB [X]
+    2) Рефакторинг x2 []
+    3) Что в redisClients у set []
 *
 * */
 
-
-const PORT = 8000
-const HOSTNAME = '127.0.0.1';
+dotenv.config()
+const PORT = process.env.PORT
+const HOSTNAME = process.env.HOSTNAME
 
 const app = express()
 
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')))
 
+app.use(bodyParser.json())
+app.use(cookieParser())
+app.use('/', router)
 
-
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
-
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use("/", router)
-
-
-
-
-
-async function startApp(){
-
-    await mongoose.connect(uriMongo);
-    app.listen(PORT, () => {
-        console.log(`Server running at http://${HOSTNAME}:${PORT}/`);
-    })
+async function startApp() {
+    await mongoose.connect(uriMongo)
+    return await redisDB.setConnection()
 }
 
 startApp()
+    .then((redisClient) => {
 
-
+        app.listen(PORT, () => {
+            console.log(`Server running at http://${HOSTNAME}:${PORT}/`)
+        })
+    })
+    .catch((error) => {
+        console.error('Error starting the app:', error)
+    })

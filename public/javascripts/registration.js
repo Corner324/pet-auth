@@ -1,49 +1,44 @@
+const login_field = document.getElementById('login')
+const password_field = document.getElementById('password')
+const sub_button = document.getElementById('sub')
+const foot = document.getElementById('foot')
 
-const login_field = document.getElementById("login");
-const password_field = document.getElementById("password");
-const sub_button = document.getElementById("sub");
-const foot = document.getElementById("foot");
-
-foot.innerHTML += document.cookie.split(' ')[1];
-
+foot.innerHTML += document.cookie.split(' ')[1]
 
 // sub_button.addEventListener("click", send_form);
 
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Предотвращаем стандартное поведение формы
-    
+document
+    .getElementById('loginForm')
+    .addEventListener('submit', function (event) {
+        event.preventDefault() // Предотвращаем стандартное поведение формы
 
-    const username = login_field.value;
-    const password = password_field.value;
-    
+        const username = login_field.value
+        const password = password_field.value
 
-    fetch('/registration', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, password }) 
-    })
-    .then(async response => {
-        if (response.status === 300) {
-            console.log("Redirected!")
-            const js = await response.json()
-            window.location.href = js.url
-        } else if (!response.ok) {
-            response.json().then(dat => {
-                console.error("Ошибка: ", dat);
+        fetch('/registration', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        })
+            .then(async (response) => {
+                if (response.status === 300) {
+                    console.log('Redirected!')
+                    const js = await response.json()
+                    window.location.href = js.url
+                } else if (!response.ok) {
+                    response.json().then((dat) => {
+                        console.error('Ошибка: ', dat)
+                    })
+                } else {
+                    return response.json()
+                }
             })
-        } else {
-            return response.json();
-        }
+            .then((data) => {
+                console.log(data)
+            })
+        // .catch(error => {
+        //   console.log(error)
+        // })
     })
-    .then(data => {
-      console.log(data);
-    })
-    // .catch(error => {
-    //   console.log(error)
-    // })
-  });
-  
-
-
