@@ -1,14 +1,11 @@
-const argon2 = require('argon2')
+import argon2 from 'argon2';
 
-class HashPass {
+export default class HashPass {
     async hashing(password) {
-        const passwordHashed = await argon2.hash(password)
-        return passwordHashed
+        return await argon2.hash(password)
     }
     async check_pass(hash, password) {
-        const correctPassword = await argon2.verify(hash, password)
-        return correctPassword
+        return await argon2.verify(hash, password)
     }
 }
 
-module.exports = { HashPass }

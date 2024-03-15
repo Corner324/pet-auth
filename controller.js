@@ -1,13 +1,18 @@
 // const bodyParser = require('body-parser')
-const { HashPass } = require('./utils/hash_pass.js')
-const path = require('path')
-const { query, validationResult } = require('express-validator')
-const crypto = require('crypto')
-const session = require('express-session')
+import HashPass from './utils/hash_pass.js';
+import path from 'path';
+import { query, validationResult } from 'express-validator';
+import crypto from 'crypto';
+import session from 'express-session';
 // const { secret } = require('./config')
-const redisDB = require('./databases/redisDB.js')
+import redisDB from './databases/redisDB.js';
 //const redisClient = require('./server')
-const User = require('./models/User')
+import User from './models/User.js';
+
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const generate_key = function () {
     return crypto.randomBytes(16).toString('base64')
@@ -135,4 +140,4 @@ class Controller {
     }
 }
 
-module.exports = new Controller()
+export default new Controller()

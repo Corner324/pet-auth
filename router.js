@@ -1,7 +1,8 @@
-const Router = require('express')
+import Router from 'express';
+import controller from './controller.js';
+import { body } from 'express-validator';
+
 const router = new Router()
-const controller = require('./controller')
-const { body } = require('express-validator')
 
 router.get('/', controller.getLogin)
 
@@ -25,4 +26,4 @@ router.get('/APanel', controller.getApanel)
 
 router.get('/clearCookie', controller.clearCookie)
 
-module.exports = router
+export default router;

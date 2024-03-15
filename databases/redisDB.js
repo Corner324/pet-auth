@@ -1,4 +1,4 @@
-const { createClient } = require('redis')
+import { createClient } from 'redis';
 
 class redisDB {
 
@@ -17,4 +17,4 @@ class redisDB {
     }
 }
 
-module.exports = new redisDB()
+export default new redisDB()

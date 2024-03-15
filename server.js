@@ -1,15 +1,17 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const favicon = require('serve-favicon')
-const cookieParser = require('cookie-parser')
+import express from 'express';
+import bodyParser from 'body-parser';
+import favicon from 'serve-favicon';
+import cookieParser from 'cookie-parser';
 //const { HashPass } = require('./utils/hash_pass');
-const path = require('path')
-const router  = require('./router')
+import path from 'path';
+import router from './router.js';
 //const session = require("express-session");
-const mongoose = require('mongoose')
-const { uriMongo } = require('./config.js')
-const redisDB = require('./databases/redisDB.js')
-const dotenv = require('dotenv')
+import mongoose from 'mongoose';
+import { config } from './config.js';
+import redisDB from './databases/redisDB.js';
+import dotenv from 'dotenv';
+
+import { fileURLToPath } from 'url';
 
 /*
 *  TODO:
@@ -25,6 +27,9 @@ const HOSTNAME = process.env.HOSTNAME
 
 const app = express()
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')))
 
@@ -33,7 +38,7 @@ app.use(cookieParser())
 app.use('/', router)
 
 async function startApp() {
-    await mongoose.connect(uriMongo)
+    await mongoose.connect(config.uriMongo)
     return await redisDB.setConnection()
 }
 

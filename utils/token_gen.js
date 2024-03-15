@@ -1,4 +1,4 @@
-const jsonwebtoken = require('jsonwebtoken')
+import jsonwebtoken from 'jsonwebtoken';
 
 class token_gen {
     generate_token(login) {
