@@ -47,8 +47,11 @@ startApp()
 
         app.listen(PORT, () => {
             console.log(`Server running at http://${HOSTNAME}:${PORT}/`)
+
         })
     })
     .catch((error) => {
         console.error('Error starting the app:', error)
     })
+
+export { redisDB }

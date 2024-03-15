@@ -5,7 +5,8 @@ import { query, validationResult } from 'express-validator';
 import crypto from 'crypto';
 import session from 'express-session';
 // const { secret } = require('./config')
-import redisDB from './databases/redisDB.js';
+//import redisDB from './databases/redisDB.js';
+import { redisDB } from './server.js';
 //const redisClient = require('./server')
 import User from './models/User.js';
 
@@ -23,6 +24,9 @@ class Controller {
         if (req.cookies.UserName) {
             const usr_name = req.cookies.UserName
             console.log('UserName from cookies - ', usr_name)
+
+            let redisClient = redisDB.getClient()
+
             const usr_data = await redisClient.get(usr_name)
 
             if (req.cookies.UserData === usr_data) {
@@ -50,7 +54,7 @@ class Controller {
             const candidate = await User.findOne({ username })
 
             const correctPassword = HashGenerator.check_pass(
-                candidate.get('password'),
+                candidate.get('password'), // If candidate not exist ??
                 password
             )
             if (!correctPassword) {
@@ -101,12 +105,8 @@ class Controller {
 
             // const redisClient = new redisDB()
             // const cliient = await redisClient.setConnection()
-            console.log('ALERT!', typeof redisClient);
 
-
-            console.log(Object.getOwnPropertyNames(redisClient));
-            // redisClient.logog()
-            await redisClient.getClient.set(username, generatedCookie)
+            redisClient.set(username, generatedCookie)
 
             res.status(300).json({
                 url: '/',
@@ -119,7 +119,7 @@ class Controller {
     }
 
     async getApanel(req, res) {
-        const redisClient = new redisDB()
+        const redisClient = redisDB
         const cliient = await redisClient.setConnection()
         if (req.cookies.UserName) {
             const usr_name = req.cookies.UserName
