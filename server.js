@@ -11,6 +11,9 @@ import { config } from './config.js';
 import redisDB from './databases/redisDB.js';
 import dotenv from 'dotenv';
 
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from'./swagger/output.json' assert { type: 'json' };
+
 import { fileURLToPath } from 'url';
 
 /*
@@ -32,10 +35,13 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use('/', router)
+
+
 
 async function startApp() {
     await mongoose.connect(config.uriMongo)

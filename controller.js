@@ -21,6 +21,19 @@ const generate_key = function () {
 
 class Controller {
     async getLogin(req, res) {
+        /*
+        #swagger.auto = false
+        #swagger.description = '12312312312312312312'
+        #swagger.tags = ['Diary']
+        #swagger.description = 'Get all Diary entries'
+        #swagger.parameters['date'] = {
+            in: 'query',
+            description: 'Date of diary entry',
+            required: false,
+        }
+        */
+
+
         if (req.cookies.UserName) {
             const usr_name = req.cookies.UserName
             console.log('UserName from cookies - ', usr_name)

@@ -7,7 +7,8 @@
     "scripts": {
         "start": "node ./server.js",
         "live": "nodemon ./server.js",
-        "prettier": "prettier  — write **/*.js"
+        "prettier": "prettier  — write **/*.js",
+        "gen": "node ./swagger/index.js"
     },
     "author": "",
     "license": "MIT",
@@ -28,9 +29,11 @@
         "nodemon": "^3.0.3",
         "redis": "^4.6.13",
         "serve-favicon": "^2.5.0",
-        "sqlite3": "^5.1.7"
+        "sqlite3": "^5.1.7",
+        "swagger-ui-express": "^5.0.0"
     },
     "devDependencies": {
-        "prettier": "^3.2.5"
+        "prettier": "^3.2.5",
+        "swagger-autogen": "^2.23.7"
     }
 }
